@@ -24,15 +24,15 @@ def predict():
 
             
         # # Retrieve the selected price range from the form
-        price = request.form['PriceRange']
+        price_range = request.form['PriceRange']
 
         # Map the selected price range to corresponding values
-        if price == "low_price":
-            price_value = 0
-        elif price == "medium_price":
-            price_value = 1
-        elif price == "high_price":
-            price_value = 2
+        if price_range == "low_price":
+            Price = 0
+        elif price_range == "medium_price":
+            Price = 1
+        elif price_range == "high_price":
+            Price = 2
         else:
             # Handle the case where an invalid option is selected
             return "Invalid price range"
@@ -228,10 +228,14 @@ def predict():
             Destination_Delhi,
             Destination_Hyderabad,
             Destination_Kolkata,
-            price_value
+            Price
         ]])
+        #convert preiction duration(min) back to hr and min format
+        pred_dur_hr = int(prediction // 60)
+        pred_dur_min = int(prediction % 60)
 
-        output=prediction
+
+        output=f"{pred_dur_hr}h {pred_dur_min}m"
 
         return render_template('home.html',prediction_text="Your Flight Duration is {}".format(output))
 
@@ -242,4 +246,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
